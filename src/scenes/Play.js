@@ -16,6 +16,9 @@ class Play extends Phaser.Scene {
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0)
         // define keys
+
+        // For Firing I will be using https://phaser.io/examples/v2/input/mouse-buttons
+        //keyFIRE = this.input.keyboard.addKey(Phaser.Input.Mouse)
         keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -29,6 +32,8 @@ class Play extends Phaser.Scene {
         this.modship01 = new Mod_Spaceship(this, game.config.width + borderUISize*6, borderUISize*10, 'mod_spaceship', 0, 60).setOrigin(0,0)
         // creating a modded ship using the default spaceship
         this.modship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'mod_spaceship', 0, 20).setOrigin(0,0)
+
+        
 
         //initialize score
         this.p1Score = 0
@@ -152,14 +157,35 @@ class Play extends Phaser.Scene {
         // temporarily hide ship
         ship.alpha = 0
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
-        boom.anims.play('explode')             // play explode animation
-        boom.on('animationcomplete', () => {    // callback after anim completes
-            ship.reset()                        // reset ship position
-            ship.alpha = 1                      // make ship visible again
-            boom.destroy()                      // remove explosion sprite
-        })
+        // https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
+        const emitter = this.add.particles(0,0, 'explosion', {
+            frame: ['green', 'green' ],
+            lifespan: 4000,
+            speed: {min: 200, max: 350 },
+            scale: { start: 0.4, end: 0},
+            rotate: {start: 0, end: 360},
+            gravityY: 200,
+            emitting: false
+        });
+        // Creating emitting particles
+        // MOD WORK - Creating emitting particles
+        //https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
+        emitter.emitParticleAt(ship.x, ship.y, 4); // 4 particles emitted
+        ship.reset()
+        ship.alpha = 1  
+
+        // previous work
+        // let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
+        // boom.anims.play('explode')             // play explode animation
+        // boom.on('animationcomplete', () => {    // callback after anim completes
+        //     ship.reset()                        // reset ship position
+        //     ship.alpha = 1                      // make ship visible again
+        //     boom.destroy()                      // remove explosion sprite
+        // })
         // score add and text update
+        // end of previous work
+
+        
         this.p1Score += ship.points
         this.scoreLeft.text = this.p1Score
         this.sound.play('sfx-explosion')
