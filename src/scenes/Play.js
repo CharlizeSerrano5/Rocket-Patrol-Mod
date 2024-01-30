@@ -24,14 +24,14 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0)
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0)
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*11, 'spaceship', 0, 30).setOrigin(0, 0) // bottom one, 11 was originally 4
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*7 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0) // 7 used to be 5
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*9, 'spaceship', 0, 10).setOrigin(0,0) // 9 used to be 4
         
         // add mod spaceship using separate file
-        this.modship01 = new Mod_Spaceship(this, game.config.width + borderUISize*6, borderUISize*10, 'mod_spaceship', 0, 60).setOrigin(0,0)
+        this.modship01 = new Mod_Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'mod_spaceship', 0, 60).setOrigin(0,0)
         // creating a modded ship using the default spaceship
-        this.modship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'mod_spaceship', 0, 20).setOrigin(0,0)
+        this.modship02 = new Mod_Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'mod_spaceship', 0, 20).setOrigin(0,0)
 
         
 
@@ -185,7 +185,7 @@ class Play extends Phaser.Scene {
         // score add and text update
         // end of previous work
 
-        
+
         this.p1Score += ship.points
         this.scoreLeft.text = this.p1Score
         this.sound.play('sfx-explosion')
