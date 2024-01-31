@@ -26,7 +26,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         if(Phaser.Input.Keyboard.JustDown(keyFIRE) && !this.isFiring)  {
             this.isFiring = true
             this.sfxShot.play()
-
+            
         }
         // if fired, move up
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
@@ -63,4 +63,5 @@ class Rocket extends Phaser.GameObjects.Sprite {
             console.log("p2 swap to 1")
         }
     }
+
 }

@@ -73,6 +73,7 @@ class Play extends Phaser.Scene {
         }
 
 
+        
         this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
         this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig)
 
@@ -80,6 +81,9 @@ class Play extends Phaser.Scene {
         //Game OVER flag
         this.gameOver = false
         
+        this.playing = this.add.text(game.config.width/2, borderUISize + borderPadding*2, 'P1', scoreConfig).setOrigin(0.5,0)
+
+
         // 60-second play clock
         scoreConfig.fixedWidth = 0
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
@@ -93,6 +97,11 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        // if (Phaser.Input.Keyboard.JustDown(keyFIRE)){
+        //     this.printFire()
+        // }
+
+
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             this.scene.restart()
@@ -169,7 +178,7 @@ class Play extends Phaser.Scene {
         }
 
 
-        // PLAYER SWAPPING
+        //---PLAYER SWAPPING
         if(this.p1Rocket.player == 2){
             // if the rocket is firing then swap to the next player
             // testing
@@ -180,6 +189,7 @@ class Play extends Phaser.Scene {
 
             //this.p1Rocket.player = 2;
             // implementing player swapping
+            this.playing.text = 'P2'
 
         }
         if(this.p1Rocket.player == 1){
@@ -192,6 +202,7 @@ class Play extends Phaser.Scene {
             
             // implementing player swapping
             //this.p1Rocket.player = 1;
+            this.playing.text = 'P1'
         }
     }
 
@@ -265,4 +276,7 @@ class Play extends Phaser.Scene {
         // this.scoreLeft1.text = this.p1Score
         // this.sound.play('sfx-explosion')
     }
+
+
+
 }
