@@ -14,7 +14,11 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0,0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0)
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0)
         // add rocket (p1)
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0)
+            // PREVIOUS
+        //this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0)
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.2, 0)
+        // the game will use the same rocket 
+        
         // define keys
 
         // For Firing I will be using https://phaser.io/examples/v2/input/mouse-buttons
@@ -23,20 +27,28 @@ class Play extends Phaser.Scene {
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
+        // MOD - add rocket (p2)
+                // define keys
+        
+
         // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*11, 'spaceship', 0, 30).setOrigin(0, 0) // bottom one, 11 was originally 4
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*9, 'spaceship', 0, 30).setOrigin(0, 0) //  9 was originally 4 
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*7 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0) // 7 used to be 5
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*9, 'spaceship', 0, 10).setOrigin(0,0) // 9 used to be 4
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*11, 'spaceship', 0, 10).setOrigin(0,0) // 11 used to be 4
         
         // add mod spaceship using separate file
         this.modship01 = new Mod_Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'mod_spaceship', 0, 60).setOrigin(0,0)
         // creating a modded ship using the default spaceship
-        this.modship02 = new Mod_Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'mod_spaceship', 0, 20).setOrigin(0,0)
+        this.modship02 = new Mod_Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'mod_spaceship', 0, 50).setOrigin(0,0)
 
         
 
         //initialize score
-        this.p1Score = 0
+        // PREVIOUS SCORE CODE
+        //this.p1Score = 0
+
+        //this.p2Score = 0
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -50,7 +62,12 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+
+
+        this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+        this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig)
+
+        // this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
         //Game OVER flag
         this.gameOver = false
         
@@ -82,7 +99,7 @@ class Play extends Phaser.Scene {
             this.ship03.update()
 
 
-            // MOD UPDATE
+            // MOD UPDATE - Creating Spaceships
             this.modship01.update() // update mod spaceship
             this.modship02.update()
         }
@@ -90,8 +107,8 @@ class Play extends Phaser.Scene {
         // check collisions
         if (this.checkCollision(this.p1Rocket, this.ship03)){
             this.p1Rocket.reset()
-            this.shipExplode(this.ship03)
-
+            //this.shipExplode(this.ship03)
+            this.shipExplode(this.p1Rocket, this.ship03)
             // checking if time will decrease
             /*
             game.settings.gameTimer -= subtracted;
@@ -106,7 +123,8 @@ class Play extends Phaser.Scene {
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)){
             this.p1Rocket.reset()
-            this.shipExplode(this.ship02)
+            //this.shipExplode(this.ship02)
+            this.shipExplode(this.p1Rocket, this.ship02)
 
 
             // checking if time will decrease
@@ -117,7 +135,8 @@ class Play extends Phaser.Scene {
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset()
-            this.shipExplode(this.ship01)
+            //this.shipExplode(this.ship01)
+            this.shipExplode(this.p1Rocket, this.ship01)
 
             // checking if time will decrease
             /*
@@ -128,16 +147,43 @@ class Play extends Phaser.Scene {
 
         if (this.checkCollision(this.p1Rocket, this.modship01)){
             this.p1Rocket.reset()
-            this.shipExplode(this.modship01)
+            //this.shipExplode(this.modship01)
+            this.shipExplode(this.p1Rocket, this.modship01)
 
         }
         
         if (this.checkCollision(this.p1Rocket, this.modship02)){
             this.p1Rocket.reset()
-            this.shipExplode(this.modship02)
+            // this.shipExplode(this.modship02)
+            this.shipExplode(this.p1Rocket, this.modship02)
 
         }
-        
+
+
+        // PLAYER SWAPPING
+        if(this.p1Rocket.isFiring && this.p1Rocket.player == 1){
+            // if the rocket is firing then swap to the next player
+            // testing
+            console.log("p1 swap to 2")
+            keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+            keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+            keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+
+            this.p1Rocket.player = 2;
+            // implementing player swapping
+
+        }
+        if(this.p1Rocket.isFiring && this.p1Rocket.player == 2){
+            // if the rocket is firing then swap to the next player
+            // testing
+            console.log("p2 swap to 1")
+            keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+            keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+            keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+            
+            // implementing player swapping
+            this.p1Rocket.player = 1;
+        }
     }
 
     checkCollision(rocket, ship) {
@@ -152,17 +198,18 @@ class Play extends Phaser.Scene {
         }
     }
     
+    shipExplode(player, ship) {
 
-    shipExplode(ship) {
+    // shipExplode(ship) {
         // temporarily hide ship
         ship.alpha = 0
         // create explosion sprite at ship's position
         // https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
         const emitter = this.add.particles(0,0, 'explosion', {
-            frame: ['green', 'green' ],
+            frame: ['0', '0', '0'],
             lifespan: 4000,
             speed: {min: 200, max: 350 },
-            scale: { start: 0.4, end: 0},
+            scale: { start: 0.4, end: 2},
             rotate: {start: 0, end: 360},
             gravityY: 200,
             emitting: false
@@ -170,7 +217,8 @@ class Play extends Phaser.Scene {
         // Creating emitting particles
         // MOD WORK - Creating emitting particles
         //https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
-        emitter.emitParticleAt(ship.x, ship.y, 4); // 4 particles emitted
+        emitter.emitParticleAt(ship.x, ship.y, ship.points/2); // 4 particles emitted
+        //console.log(ship.points) // TESTING
         ship.reset()
         ship.alpha = 1  
 
@@ -186,8 +234,24 @@ class Play extends Phaser.Scene {
         // end of previous work
 
 
-        this.p1Score += ship.points
-        this.scoreLeft.text = this.p1Score
+        
+        player.Score += ship.points
+        if (player == this.p1Rocket){
+            // if statement works
+            this.scoreLeft1.text = player.Score
+            // score works
+        }
+        else if (player == this.p2Rocket){
+            // implement player 2 functionality
+            // logic is if the player fires anything then swap 
+            // use the .isFiring property
+            this.scoreLeft2.text = player.Score
+        }
         this.sound.play('sfx-explosion')
+
+        //PREVIOUS WORK
+        // this.p1Score += ship.points
+        // this.scoreLeft1.text = this.p1Score
+        // this.sound.play('sfx-explosion')
     }
 }
