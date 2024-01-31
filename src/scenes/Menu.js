@@ -53,6 +53,12 @@ class Menu extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         // should keep these keys for menu selection
         
+
+        // Possible Implementation of High Score
+        
+        
+        topScore = this.add.text(game.config.width/2, game.config.height/2, highScore, menuConfig).setOrigin(0.5)
+
     }
 
     update() {
@@ -81,4 +87,6 @@ class Menu extends Phaser.Scene {
     }
 
     
+
+
 }

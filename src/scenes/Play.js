@@ -81,8 +81,7 @@ class Play extends Phaser.Scene {
         //Game OVER flag
         this.gameOver = false
         
-        this.playing = this.add.text(game.config.width/2, borderUISize + borderPadding*2, 'P1', scoreConfig).setOrigin(0.5,0)
-
+        //this.playing = this.add.text(game.config.width/2, borderUISize + borderPadding*2, 'P1', scoreConfig).setOrigin(0.5,0)
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0
@@ -92,21 +91,20 @@ class Play extends Phaser.Scene {
             this.gameOver = true
         }, null, this)
         
+        topScore = this.add.text(game.config.width/2, borderUISize + borderPadding*2, highScore, highScoreConfig).setOrigin(0.5)
 
         
     }
 
-    update() {
-        // if (Phaser.Input.Keyboard.JustDown(keyFIRE)){
-        //     this.printFire()
-        // }
-
-
+    update() {        
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
+            
+            this.highScore()
             this.scene.restart()
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.highScore()
             this.scene.start("menuScene")
         }
         this.starfield.tilePositionX -= 4
@@ -189,7 +187,8 @@ class Play extends Phaser.Scene {
 
             //this.p1Rocket.player = 2;
             // implementing player swapping
-            this.playing.text = 'P2'
+            
+            //this.playing.text = 'P2'
 
         }
         if(this.p1Rocket.player == 1){
@@ -202,7 +201,7 @@ class Play extends Phaser.Scene {
             
             // implementing player swapping
             //this.p1Rocket.player = 1;
-            this.playing.text = 'P1'
+            //this.playing.text = 'P1'
         }
     }
 
@@ -226,6 +225,7 @@ class Play extends Phaser.Scene {
         // create explosion sprite at ship's position
         // https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
         const emitter = this.add.particles(0,0, 'explosion', {
+            //frame: ['explode', 'exlode', 'explode'],
             frame: ['0', '0', '0'],
             lifespan: 4000,
             speed: {min: 200, max: 350 },
@@ -278,5 +278,15 @@ class Play extends Phaser.Scene {
     }
 
 
+    highScore(){
+        // checks if one player score is higher than the other
+        if (this.p2Score > highScore){
+            highScore = this.p2Score
+        }
 
+        else if (this.p1Score > highScore){
+            highScore= this.p1Score
+        }
+        console.log(highScore)
+    }
 }
