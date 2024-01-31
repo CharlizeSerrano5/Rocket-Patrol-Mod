@@ -57,7 +57,7 @@ class Menu extends Phaser.Scene {
         // Possible Implementation of High Score
         
         
-        topScore = this.add.text(game.config.width/2, game.config.height/2, highScore, menuConfig).setOrigin(0.5)
+        topScore = this.add.text(game.config.width/2, borderUISize, 'High Score: ' + highScore, highScoreConfig).setOrigin(0.5)
 
     }
 

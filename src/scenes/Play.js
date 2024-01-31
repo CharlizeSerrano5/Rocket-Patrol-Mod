@@ -74,8 +74,8 @@ class Play extends Phaser.Scene {
 
 
         
-        this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
-        this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2, this.p2Score, scoreConfig)
+        this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "P1: " + this.p1Score, scoreConfig)
+        this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2, "P2: " + this.p2Score, scoreConfig)
 
         // this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
         //Game OVER flag
@@ -265,7 +265,7 @@ class Play extends Phaser.Scene {
         if (this.p1Rocket.player == 1){
             // if statement works
             this.p1Score += ship.points
-            this.scoreLeft1.text = this.p1Score
+            this.scoreLeft1.text = "P1: " + this.p1Score
             // score works
         }
         else if (this.p1Rocket.player == 2){
@@ -273,7 +273,7 @@ class Play extends Phaser.Scene {
             // logic is if the player fires anything then swap 
             // use the .isFiring property
             this.p2Score += ship.points
-            this.scoreLeft2.text = this.p2Score
+            this.scoreLeft2.text = "P2: " + this.p2Score
         }
         this.sound.play('sfx-explosion')
 
