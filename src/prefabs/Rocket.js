@@ -8,7 +8,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.isFiring = false    // track rocket's firing status
         this.moveSpeed = 2       // rocket speed in pixels/frame
         this.sfxShot = scene.sound.add('sfx-shot')
-        this.Score = 0
+        //this.Score = 0
 
         this.player = 1;
     }
@@ -52,5 +52,15 @@ class Rocket extends Phaser.GameObjects.Sprite {
     reset() {
         this.isFiring = false
         this.y = game.config.height - borderUISize - borderPadding
+
+        if (this.player == 1){
+            this.player = 2
+            console.log("p1 swap to 2")
+        }
+
+        else if (this.player == 2){
+            this.player = 1
+            console.log("p2 swap to 1")
+        }
     }
 }

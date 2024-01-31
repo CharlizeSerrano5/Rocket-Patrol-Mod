@@ -23,7 +23,12 @@ class Play extends Phaser.Scene {
 
         // For Firing I will be using https://phaser.io/examples/v2/input/mouse-buttons
         //keyFIRE = this.input.keyboard.addKey(Phaser.Input.Mouse)
-        keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+        
+        
+        //keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+        // chage to up
+        keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
@@ -46,9 +51,13 @@ class Play extends Phaser.Scene {
 
         //initialize score
         // PREVIOUS SCORE CODE
-        //this.p1Score = 0
+        this.p1Score = 0
 
-        //this.p2Score = 0
+
+
+        this.p2Score = 0
+
+
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -161,28 +170,28 @@ class Play extends Phaser.Scene {
 
 
         // PLAYER SWAPPING
-        if(this.p1Rocket.isFiring && this.p1Rocket.player == 1){
+        if(this.p1Rocket.player == 2){
             // if the rocket is firing then swap to the next player
             // testing
-            console.log("p1 swap to 2")
+            
             keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
             keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
             keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
 
-            this.p1Rocket.player = 2;
+            //this.p1Rocket.player = 2;
             // implementing player swapping
 
         }
-        if(this.p1Rocket.isFiring && this.p1Rocket.player == 2){
+        if(this.p1Rocket.player == 1){
             // if the rocket is firing then swap to the next player
             // testing
-            console.log("p2 swap to 1")
-            keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+            
+            keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
             keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
             keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
             
             // implementing player swapping
-            this.p1Rocket.player = 1;
+            //this.p1Rocket.player = 1;
         }
     }
 
@@ -235,17 +244,19 @@ class Play extends Phaser.Scene {
 
 
         
-        player.Score += ship.points
-        if (player == this.p1Rocket){
+        
+        if (this.p1Rocket.player == 1){
             // if statement works
-            this.scoreLeft1.text = player.Score
+            this.p1Score += ship.points
+            this.scoreLeft1.text = this.p1Score
             // score works
         }
-        else if (player == this.p2Rocket){
+        else if (this.p1Rocket.player == 2){
             // implement player 2 functionality
             // logic is if the player fires anything then swap 
             // use the .isFiring property
-            this.scoreLeft2.text = player.Score
+            this.p2Score += ship.points
+            this.scoreLeft2.text = this.p2Score
         }
         this.sound.play('sfx-explosion')
 
