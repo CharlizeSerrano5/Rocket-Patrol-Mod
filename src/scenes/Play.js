@@ -97,6 +97,12 @@ class Play extends Phaser.Scene {
     }
 
     update() {        
+        if (this.gameOver == true){
+            // make sure menu uses the left key 
+            keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        }
+        
+        
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             
