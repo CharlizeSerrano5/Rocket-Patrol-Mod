@@ -1,14 +1,15 @@
-//Charlize Serrano
-// Mod Title: 2 Player Mode 
+// Charlize Serrano
+// Mod Title: Rocket Patrol: Patrollers Gotta Patrol
 // Roughly 13 hours
-//the mods you chose from the list above, their point values, and, if necessary, an explanation of their implementation
+// Selected Mods:
     // Enemy Spaceship, 5 Point
         // The enemy spaceship was created by making a brand new file Mod_Spaceship.js this was created so that the variable of speed can easily be changed
         // The file essentially takes from the existing Spaceship.js file
         // Because it is a new spaceship, the placement of the spaceships were changed
     // Particle Emiter, 5 Point
         // The Particle Emitter is implemented through a particle emitter class and uses the first frame of the explosion pixel art
-            // This class was found on a Phaser 3 Example: https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
+        // This class is integrated inside of the shipExplode() function and calls the emitParticleAt() method
+            // This emitter class and method was found on a Phaser 3 Example: https://phaser.io/examples/v3/view/game-objects/particle-emitter/emit-at-pointer
     // 2 Player Mod, 5 Point
         // Two players will be controlling the same rocket
         // An integer value called Player in the Rocket constructor is kept at 1 or 2
@@ -36,7 +37,7 @@
         // This value is then printed into the ScoreConfiguration
             // The value is default printed inside of the create() method but changed in the update loop every miss and hit
         // The code for getRemaining() is found on the same website for the Mod above, Subtract from Time and Add time Per Hit
-            // Source for this code:  https://photonstorm.github.io/phaser3-docs/Phaser.Time.TimerEvent.html
+            // Source for the getRemaining() and clock code:  https://photonstorm.github.io/phaser3-docs/Phaser.Time.TimerEvent.html
 
 let config = {
     type: Phaser.AUTO,
