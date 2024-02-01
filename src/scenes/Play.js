@@ -42,7 +42,7 @@ class Play extends Phaser.Scene {
         {
 
             //  Keep the paddle within the game
-            this.p1Rocket.x = Phaser.Math.Clamp(pointer.x, 52, 748);
+            this.p1Rocket.x = Phaser.Math.Clamp(pointer.x, borderUISize + this.p1Rocket.width, game.config.width - borderUISize - this.p1Rocket.width);
 
             // if (this.ball.getData('onPaddle'))
             // {
@@ -53,11 +53,19 @@ class Play extends Phaser.Scene {
 
         this.input.on('pointerup', function (pointer)
         {
+            this.p1Rocket.x = Phaser.Math.Clamp(this.p1Rocket.x, this.p1Rocket.x, this.p1Rocket.x);
             if(!this.p1Rocket.isFiring)  {
             this.p1Rocket.isFiring = true
             this.p1Rocket.sfxShot.play()
-            console.log("go up")
+            
+            // testing
+            //console.log("go up")
             }
+            
+            if(this.p1Rocket.isFiring && this.p1Rocket.y >= borderUISize * 3 + borderPadding) {
+                this.p1Rocket.y -= this.p1Rocket.moveSpeed
+            }
+            
         }, this);
 
 
@@ -119,9 +127,11 @@ class Play extends Phaser.Scene {
             this.gameOver = true
         }, null, this)
         
-        topScore = this.add.text(game.config.width/2, borderUISize + borderPadding*2, highScore, highScoreConfig).setOrigin(0.5)
-        this.currentPlayer = this.add.text(borderUISize*13, borderUISize + borderPadding*2, 'P' + this.p1Rocket.player, scoreConfig).setOrigin(0.5)
+        topScore = this.add.text(game.config.width/2, borderUISize + borderPadding*2, 'HI: ' + highScore, highScoreConfig).setOrigin(0.5, 0)
+        this.currentPlayer = this.add.text(borderUISize*13, borderUISize + borderPadding*2, 'P' + this.p1Rocket.player, scoreConfig).setOrigin(0.5, 0)
 
+        let initial_time = game.settings.gameTimer
+        this.timer = this.add.text(borderUISize*7, borderUISize + borderPadding*2, initial_time/1000, highScoreConfig).setOrigin(0.5, 0)
 
     }
 
@@ -256,6 +266,9 @@ class Play extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyFIRE) && !this.p1Rocket.isFiring){
 
         }
+
+        this.remaining_time = this.clock.getRemaining()
+        this.timer.text = Math.floor(this.remaining_time/1000) +"s"
     }
 
     checkCollision(rocket, ship) {
@@ -340,13 +353,15 @@ class Play extends Phaser.Scene {
         else if (this.p1Score > highScore){
             highScore= this.p1Score
         }
-        console.log(highScore)
+        // testing
+        //console.log(highScore)
     }
 
     // Implementing Time
     change_time(time_change) {
         let duration = this.clock.getRemaining()
-        console.log(duration)
+        // testing
+        //console.log(duration)
         this.clock.remove(false)
         this.clock = this.time.delayedCall(duration + (time_change), () => {
             let scoreConfig = {
@@ -366,6 +381,11 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
             this.gameOver = true
         }, null, this)
-        console.log(this.clock.getRemaining())
+        this.remaining_time = this.clock.getRemaining();
+        // testing
+        //console.log(this.remaining_time)
+
+        
+        this.timer.text = Math.floor(this.remaining_time/1000) + "s"
     }
 }

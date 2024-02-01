@@ -31,6 +31,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.sfxShot.play()
             
         }
+
         // if fired, move up
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
             this.y -= this.moveSpeed
@@ -42,7 +43,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.miss = true
             this.reset()
 
-
+            // TESTING
             /*
             game.settings.gameTimer -= 10000;
             let seconds = game.settings.gameTimer;
@@ -56,15 +57,19 @@ class Rocket extends Phaser.GameObjects.Sprite {
     reset() {
         this.isFiring = false
         this.y = game.config.height - borderUISize - borderPadding
+        
 
+        // Two Player Implementation
         if (this.player == 1){
             this.player = 2
-            console.log("p1 swap to 2")
+            // Testing
+            //console.log("p1 swap to 2")
         }
 
         else if (this.player == 2){
             this.player = 1
-            console.log("p2 swap to 1")
+            // Testing
+            //console.log("p2 swap to 1")
         }
     }
 

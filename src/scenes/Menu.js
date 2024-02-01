@@ -42,6 +42,8 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
         // display menu text
+
+            // MODIFIED DISPLAY MENU TEXT
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, '2 PLAYER ROCKET PATROL', menuConfig).setOrigin(0.5)
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (UP) to fire', menuConfig).setOrigin(0.5)
         // this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5)
@@ -51,8 +53,8 @@ class Menu extends Phaser.Scene {
         menuConfig.backgroundColor = '#00FF00'
         menuConfig.color = '#000'
         this.add.text(game.config.width/2, game.config.height/2 + 2*borderUISize + 2*borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5)
-        // define keys
         
+        // define keys  
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         // should keep these keys for menu selection

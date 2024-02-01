@@ -12,7 +12,7 @@ class Mod_Spaceship extends Phaser.GameObjects.Sprite{
         this.x -= this.moveSpeed
 
         // wrap from left to right edge
-        if(this.x <= 0 - this.width) {
+        if(this.x <= 0 + this.width/2) {
             this.x = game.config.width
         }
     }
