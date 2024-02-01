@@ -10,6 +10,9 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.sfxShot = scene.sound.add('sfx-shot')
         //this.Score = 0
 
+        // Implementing Time
+        this.miss = false;
+        // Implementing Player Swap
         this.player = 1;
     }
 
@@ -36,6 +39,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         if(this.y <= borderUISize * 3 + borderPadding){
             // this.isFiring = false
             // this.y = game.config.height - borderUISize - borderPadding
+            this.miss = true
             this.reset()
 
 

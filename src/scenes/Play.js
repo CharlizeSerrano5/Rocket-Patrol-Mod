@@ -21,7 +21,6 @@ class Play extends Phaser.Scene {
         
         // define keys
 
-        // For Firing I will be using https://phaser.io/examples/v2/input/mouse-buttons
         //keyFIRE = this.input.keyboard.addKey(Phaser.Input.Mouse)
         
         
@@ -156,11 +155,21 @@ class Play extends Phaser.Scene {
             this.modship02.update()
         }
 
+        // MOD UPDATE - Subtract from time
+        if (this.p1Rocket.miss == true) {
+            this.change_time(-6000)
+            this.p1Rocket.miss = false;
+        }
+
+
+
         // check collisions
         if (this.checkCollision(this.p1Rocket, this.ship03)){
             this.p1Rocket.reset()
             //this.shipExplode(this.ship03)
             this.shipExplode(this.p1Rocket, this.ship03)
+
+            this.change_time(1000)
             // checking if time will decrease
             /*
             game.settings.gameTimer -= subtracted;
@@ -177,7 +186,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset()
             //this.shipExplode(this.ship02)
             this.shipExplode(this.p1Rocket, this.ship02)
-
+            this.change_time(2000)
 
             // checking if time will decrease
             /*
@@ -189,7 +198,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset()
             //this.shipExplode(this.ship01)
             this.shipExplode(this.p1Rocket, this.ship01)
-
+            this.change_time(3000)
             // checking if time will decrease
             /*
             game.settings.gameTimer -= subtracted;
@@ -201,14 +210,14 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset()
             //this.shipExplode(this.modship01)
             this.shipExplode(this.p1Rocket, this.modship01)
-
+            this.change_time(3000)
         }
         
         if (this.checkCollision(this.p1Rocket, this.modship02)){
             this.p1Rocket.reset()
             // this.shipExplode(this.modship02)
             this.shipExplode(this.p1Rocket, this.modship02)
-
+            this.change_time(3000)
         }
 
 
@@ -332,5 +341,31 @@ class Play extends Phaser.Scene {
             highScore= this.p1Score
         }
         console.log(highScore)
+    }
+
+    // Implementing Time
+    change_time(time_change) {
+        let duration = this.clock.getRemaining()
+        console.log(duration)
+        this.clock.remove(false)
+        this.clock = this.time.delayedCall(duration + (time_change), () => {
+            let scoreConfig = {
+                fontFamily: 'Courier',
+                fontSize: '28px',
+                backgroundColor: '#F3B141',
+                color: '#843605',
+                align: 'right',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 100
+            }
+            scoreConfig.fixedWidth = 0
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
+            this.gameOver = true
+        }, null, this)
+        console.log(this.clock.getRemaining())
     }
 }
