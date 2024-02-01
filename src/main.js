@@ -6,6 +6,7 @@
     // Particle Emiter, 5 Point
     // 2 Player Mod, 5 Point
     // High Score, 1 Point
+    // Optional Mouse Control Mod, 5 Point
 
 let config = {
     type: Phaser.AUTO,
@@ -22,7 +23,7 @@ let borderUISize = game.config.height / 15
 let borderPadding = borderUISize / 3
 
 let easyGameTimer = 60000
-let hardGameTimer = 5000
+let hardGameTimer = 45000
 
 let highScoreConfig = {
     fontFamily: 'Courier',

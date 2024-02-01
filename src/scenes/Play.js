@@ -26,12 +26,41 @@ class Play extends Phaser.Scene {
         
         
         //keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
-        // chage to up
+        // // change to up
+
+        // TURNING OFF TEMPORARILY
         keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
 
         keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
+
+        // Got Code for Mouse Control Event from https://phaser.io/examples/v3/view/games/breakout/breakout
+            // the code only takes the pointer functions and the math.clamp method
+            // the code reinputs the methods from rocket and gives the player optional pointer usage
+        this.input.on('pointermove', function (pointer)
+        {
+
+            //  Keep the paddle within the game
+            this.p1Rocket.x = Phaser.Math.Clamp(pointer.x, 52, 748);
+
+            // if (this.ball.getData('onPaddle'))
+            // {
+            //     this.ball.x = this.paddle.x;
+            // }
+
+        }, this);
+
+        this.input.on('pointerup', function (pointer)
+        {
+            if(!this.p1Rocket.isFiring)  {
+            this.p1Rocket.isFiring = true
+            this.p1Rocket.sfxShot.play()
+            console.log("go up")
+            }
+        }, this);
+
 
         // MOD - add rocket (p2)
                 // define keys
@@ -74,8 +103,8 @@ class Play extends Phaser.Scene {
 
 
         
-        this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "P1: " + this.p1Score, scoreConfig)
-        this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2, "P2: " + this.p2Score, scoreConfig)
+        this.scoreLeft1 = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+        this.scoreLeft2 = this.add.text(borderUISize*15.2 + borderPadding, borderUISize + borderPadding*2,  this.p2Score, scoreConfig)
 
         // this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
         //Game OVER flag
@@ -92,8 +121,9 @@ class Play extends Phaser.Scene {
         }, null, this)
         
         topScore = this.add.text(game.config.width/2, borderUISize + borderPadding*2, highScore, highScoreConfig).setOrigin(0.5)
+        this.currentPlayer = this.add.text(borderUISize*13, borderUISize + borderPadding*2, 'P' + this.p1Rocket.player, scoreConfig).setOrigin(0.5)
 
-        
+
     }
 
     update() {        
@@ -183,7 +213,7 @@ class Play extends Phaser.Scene {
 
 
         //---PLAYER SWAPPING
-        if(this.p1Rocket.player == 2){
+        if(this.p1Rocket.player == 1){
             // if the rocket is firing then swap to the next player
             // testing
             
@@ -193,14 +223,15 @@ class Play extends Phaser.Scene {
 
             //this.p1Rocket.player = 2;
             // implementing player swapping
-            
+            this.currentPlayer.text = 'P1'
+
             //this.playing.text = 'P2'
 
         }
-        if(this.p1Rocket.player == 1){
+        if(this.p1Rocket.player == 2){
             // if the rocket is firing then swap to the next player
             // testing
-            
+            this.currentPlayer.text = 'P2'
             keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
             keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
             keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
@@ -208,6 +239,13 @@ class Play extends Phaser.Scene {
             // implementing player swapping
             //this.p1Rocket.player = 1;
             //this.playing.text = 'P1'
+        }
+
+
+
+        //--Fire Input
+        if(Phaser.Input.Keyboard.JustDown(keyFIRE) && !this.p1Rocket.isFiring){
+
         }
     }
 
@@ -262,18 +300,18 @@ class Play extends Phaser.Scene {
 
         
         
-        if (this.p1Rocket.player == 1){
+        if (this.p1Rocket.player == 2){
             // if statement works
             this.p1Score += ship.points
-            this.scoreLeft1.text = "P1: " + this.p1Score
+            this.scoreLeft1.text = this.p1Score
             // score works
         }
-        else if (this.p1Rocket.player == 2){
+        else if (this.p1Rocket.player == 1){
             // implement player 2 functionality
             // logic is if the player fires anything then swap 
             // use the .isFiring property
             this.p2Score += ship.points
-            this.scoreLeft2.text = "P2: " + this.p2Score
+            this.scoreLeft2.text =  this.p2Score
         }
         this.sound.play('sfx-explosion')
 
